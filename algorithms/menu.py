@@ -18,3 +18,40 @@ menu = [
          ['pizza','bread','tomato','cheese','cheese'],
          ['banana']
        ]
+
+# This code tests the implementation
+test_menu = [ ['potato'],
+              ['cheese'],
+              ['apple'] ]
+expected_result = True
+if free_from(test_menu, 'water') == expected_result:
+    print('Working')
+else:
+    print('Failure')
+
+test_menu2 = [['stew', 'onion', 'potato', 'oil'],
+              ['soup','dill', 'carrot', 'ckichen', 'parsley'],
+              ['orange']]
+expected_result2 = True
+if free_from(test_menu2, 'water') == expected_result2:
+    print('Test 2: Working')
+else:
+    print('Test 2: Failure')
+
+test_menu3 = [['butter'],
+              ['bread', 'flour', 'water', 'yeast'],
+              ['pancakes', 'flour', 'milk', 'sugar']]
+expected_result3 = False
+if free_from(test_menu3, 'water') == expected_result3:
+    print('Test 3: Working')
+else:
+    print('Test 3: Failure')
+    
+test_menu4 = [['water'],
+              ['bread', 'flour', 'butter', 'yeast'],
+              ['pancakes', 'flour', 'milk', 'sugar']]
+expected_result4 = False
+if free_from(test_menu4, 'water') == expected_result4:
+    print('Test 4: Working')
+else:
+    print('Test 4: Failure')

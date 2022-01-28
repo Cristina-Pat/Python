@@ -1,3 +1,4 @@
+from typing import Callable
 """
 A card has two characters:
 first - A, 2-9, T, J, Q, K
@@ -17,9 +18,17 @@ def value(card: str) -> int: #return the value of the card
 def suitValue(card: str) -> tuple:
     return(suit(card), value(card))
 
+def sort(cards: list, key: Callable) -> tuple:
+    for i in range(len(cards)):
+        for j in range(i + 1, len(cards)):
+            if key(cards[i]) > key(cards[j]):
+               cards[i], cards[j] = cards[j], cards[i]
 
-print(suitValue('AS'))
+    print (cards)
+
+#print(suitValue('AS'))
 
 cards = ['2S', 'AS', '2D', 'AD']
-cards.sort(key=suitValue)
-print(cards)
+sort(cards, key=suitValue)
+#cards.sort(key=suitValue)
+#print(cards)

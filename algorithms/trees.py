@@ -1,3 +1,7 @@
+from turtle import left
+from collections import deque
+
+
 class TreeNode:
 # a rooted binary tree
     def __init__(self):
@@ -50,7 +54,7 @@ def has(tree: TreeNode, item: object) -> bool:
     return has(tree.left, item) or has(tree.right, item)
 
 
-#return the expression produced by the tree
+#print the expression produced by the tree
 def inOrder(expression: TreeNode) -> None:
     if isEmpty(expression):
         return
@@ -62,6 +66,24 @@ def inOrder(expression: TreeNode) -> None:
     print(' ', expression.item, ' ', end=' ')
     inOrder(expression.right)
     print(')', end= ' ')
+
+#return the value of the expresssion tree
+def assess(expresssion: TreeNode) -> int:
+    if isLeaf(expresssion):
+        return expresssion.item
+    leftValue = assess(expresssion.left)
+    rightValue = assess(expresssion.right)
+    operator = expresssion.item
+    if operator == '+':
+        return leftValue + rightValue
+    if operator == '-':
+        return leftValue - rightValue
+    if operator == '*':
+        return leftValue * rightValue
+    if operator == '/':
+        return leftValue / rightValue
+        
+
 
 
 # construct trees bottom-up, starting from the leaves
@@ -84,4 +106,4 @@ SMA = join( '-', join('*', join('+', THREE, FOUR), FIVE), SIX) #((3+4)*5)-6
 #print(has(SMA, 5))
 #print(has(SMA, 7))
 inOrder(SMA)
-
+print('= ', assess(SMA))

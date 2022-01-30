@@ -40,6 +40,16 @@ def height(tree: TreeNode) -> int:
     else:
         return max(height(tree.left), height(tree.right)) + 1
 
+
+#return true if the item occurs on the tree
+def has(tree: TreeNode, item: object) -> bool:
+    if isEmpty(tree):
+        return False
+    if tree.item == item: #visit a node
+        return True
+    return has(tree.left, item) or has(tree.right, item)
+
+
 # construct trees bottom-up, starting from the leaves
 EMPTY = TreeNode()
 THREE = join(3, EMPTY, EMPTY)
@@ -53,5 +63,8 @@ SMA = join( '-', join('*', join('+', THREE, FOUR), FIVE), SIX) #((3+4)*5)-6
 #print(isLeaf(FOUR))
 # isEmpty(EMPTY)
 #print(isLeaf(SMA))
-print(size(SMA))
-print(height(SMA))
+#print(size(SMA))
+#print(height(SMA))
+print(has(SMA, 5))
+print(has(SMA, 7))
+

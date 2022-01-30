@@ -84,7 +84,25 @@ def assess(expresssion: TreeNode) -> int:
         return leftValue / rightValue
         
 
+#print the tree from the level down, one level per line
+def levels(tree: TreeNode) -> None:
+    thisLevel = deque()
+    nextLevel = deque()
+    thisLevel.append(tree)
+    print(thisLevel)
 
+    while len(thisLevel) > 0:
+        tree = thisLevel.popleft()
+        print(tree.item, ' ', end='')
+        if not isEmpty(tree.left):
+            nextLevel.append(tree.left)
+        if not isEmpty(tree.right):
+            nextLevel.append(tree.right)
+        #start a new line whether it wsa the last tree on this level
+        if len(thisLevel) == 0:
+            print()
+            thisLevel = nextLevel
+            nextLevel = deque()
 
 # construct trees bottom-up, starting from the leaves
 EMPTY = TreeNode()
@@ -105,5 +123,8 @@ SMA = join( '-', join('*', join('+', THREE, FOUR), FIVE), SIX) #((3+4)*5)-6
 #print(height(SMA))
 #print(has(SMA, 5))
 #print(has(SMA, 7))
-inOrder(SMA)
-print('= ', assess(SMA))
+
+#inOrder(SMA)
+#print('= ', assess(SMA))
+
+levels(SMA)

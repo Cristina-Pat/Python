@@ -50,6 +50,20 @@ def has(tree: TreeNode, item: object) -> bool:
     return has(tree.left, item) or has(tree.right, item)
 
 
+#return the expression produced by the tree
+def inOrder(expression: TreeNode) -> None:
+    if isEmpty(expression):
+        return
+    if isLeaf(expression):
+        print(expression.item, end=' ')
+        return
+    print('(', end=' ')
+    inOrder(expression.left)
+    print(' ', expression.item, ' ', end=' ')
+    inOrder(expression.right)
+    print(')', end= ' ')
+
+
 # construct trees bottom-up, starting from the leaves
 EMPTY = TreeNode()
 THREE = join(3, EMPTY, EMPTY)
@@ -59,12 +73,15 @@ SIX = join(6, EMPTY, EMPTY)
 
 # join two subtrees
 SMA = join( '-', join('*', join('+', THREE, FOUR), FIVE), SIX) #((3+4)*5)-6
+
+
 # isEmpty(SMA)
 #print(isLeaf(FOUR))
 # isEmpty(EMPTY)
 #print(isLeaf(SMA))
 #print(size(SMA))
 #print(height(SMA))
-print(has(SMA, 5))
-print(has(SMA, 7))
+#print(has(SMA, 5))
+#print(has(SMA, 7))
+inOrder(SMA)
 

@@ -25,7 +25,7 @@ def join(item: object, left: TreeNode, right: TreeNode) -> TreeNode:
     return tree
 
 
-# return the size of the tree
+# return the size of the tree (the numbers of the items/nodes)
 def size(tree: TreeNode) -> int:
     if isEmpty(tree):
         return 0
@@ -33,6 +33,12 @@ def size(tree: TreeNode) -> int:
         return size(tree.left) + size(tree.right) + 1
 
 
+# return the height of the tree (the number of levels, largest depth plus 1 - for root)
+def height(tree: TreeNode) -> int:
+    if isEmpty(tree):
+        return 0
+    else:
+        return max(height(tree.left), height(tree.right)) + 1
 
 # construct trees bottom-up, starting from the leaves
 EMPTY = TreeNode()
@@ -48,3 +54,4 @@ SMA = join( '-', join('*', join('+', THREE, FOUR), FIVE), SIX) #((3+4)*5)-6
 # isEmpty(EMPTY)
 #print(isLeaf(SMA))
 print(size(SMA))
+print(height(SMA))

@@ -112,8 +112,14 @@ edges = test.edges()
 
 print(test.getNeighbours(4))
 
-#for x in test.neighbours:
-    #print(x)
+print(test.degree(2))
+print(test.outDegree(2))
+print(test.outNeighbours(4))
+
+print(test.inNeighbours(4))
+print(test.inNeighbours(2))
+for x in test.neighbours:
+    print(x)
 
 print(nodes)
 print(edges)

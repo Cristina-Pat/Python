@@ -1,4 +1,6 @@
 from __future__ import unicode_literals
+from random import random
+import graphlib
 from typing import Hashable
 from graphs import Digraph
 
@@ -36,6 +38,45 @@ class UndirectedGraph(Digraph):
         return self.outDegree(node)
 
 
+newGraph = UndirectedGraph()
+
+#return a graph with nodes up x-1 and no edges
+def nullGraph(x: int) -> UndirectedGraph:
+    graph = UndirectedGraph()
+    for node in range(x):
+        graph.addNode(node)
+    return graph
+    
+#return a graph with nodes and edges 0-1, 1-2, 2-3 ...
+def pathGraph(x: int) -> UndirectedGraph:
+    graph = nullGraph(x)
+    for node in range(x-1):
+        graph.addEdge(node, node+1)
+    return graph
+
+#return a graph with nodes 0, 1, ... x-1 and edges 0-1, 1-2, 2-3 ... (n-1)-0
+def cycleGraph(x: int) -> UndirectedGraph: # x > 0
+    graph = pathGraph(x)
+    graph.addEdge(x-1, 0)
+    return graph
+
+#return a graph with nodes 0, 1 ... x-1 connected to each other
+def completeGraph(x: int) -> UndirectedGraph:
+    graph = nullGraph(x)
+    for node1 in range(x):
+        for node2 in range(node1 + 1, x):
+            graph.addEdge(node1, node2)
+    return graph
+
+#return a random graph with x nodes
+def randomGraph(x: int, prob: float) -> UndirectedGraph:
+    graph = nullGraph(x)
+    for node1 in range(x):
+        for node2 in range(node1 + 1, x):
+            if random() < prob:
+                graph.addEdge(node1, node2)
+    return graph
+
 test2 = UndirectedGraph()
 test2.addNode('Tom')
 test2.addNode('Isa')
@@ -54,3 +95,5 @@ test2.addEdge('Alex', 'Tom')
 print(test2.edges())
 print(test2.getNeighbours('Alex'))
 print(test2.degree('Tom'))
+
+print(nullGraph(5))

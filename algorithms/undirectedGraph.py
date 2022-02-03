@@ -1,8 +1,11 @@
 from __future__ import unicode_literals
+from importlib.resources import path
+from operator import ne
 from random import random
 import graphlib
 from typing import Hashable
 from graphs import Digraph
+from collections import deque
 
 class UndirectedGraph(Digraph):
 
@@ -73,9 +76,76 @@ def randomGraph(x: int, prob: float) -> UndirectedGraph:
     graph = nullGraph(x)
     for node1 in range(x):
         for node2 in range(node1 + 1, x):
-            if random() < prob:
-                graph.addEdge(node1, node2)
+            if random() < prob: #0 <= prob <= 1
+                graph.addEdge(node1, node2) #each edge has the given probability(prob) of existing
     return graph
+
+#return all nodes reachable from start, in order visited
+def traversal(graph:Digraph, start: Hashable) -> list:
+    visited = [start]
+    forProcessing = graph.outNeighbours(start)
+    while len(forProcessing) > 0:
+        node = forProcessing.pop()
+        if node not in visited:
+            visited.append(node)
+            for neighbour in graph.outNeighbours(node):
+                forProcessing.add(neighbour)
+    return visited
+
+#return the traversed subgraph when beginning at start
+def traversed(graph: Digraph, start: Hashable) -> Digraph:
+    visited = Digraph()
+    visited.addNode(start)
+    forProcessing = set()
+    for neighbour in graph.outNeighbours(start):
+        forProcessing.add((start, neighbour))
+    while len(forProcessing) > 0:
+        edge = forProcessing.pop()
+        previous = edge[0]
+        current = edge[1]
+        if not visited.hasNode(current):
+            visited.addNode(current)
+            visited.addEdge(previous, current)
+            for neighbour in graph.outNeighbours(current):
+                forProcessing.add(current, neighbour) 
+    return visited
+
+#return the subgraph traversed by a breadth-first search
+def breadthFirstSearch(graph: Digraph, start: Hashable) -> Digraph:
+    visited = Digraph()
+    visited.addNode(start)
+    forProcessing = deque()
+    for neighbour in graph.outNeighbours(start):
+        forProcessing.append((start, neighbour))
+    while len(forProcessing) > 0:
+        edge = forProcessing.popleft()
+        previous = edge[0]
+        current = edge[1]
+        if not visited.hasNode(current):
+            visited.addNode(current)
+            visited.addEdge(previous, current)
+            for neighbour in graph.outNeighbours(current):
+                forProcessing.append(current, neighbour)
+    return visited
+
+#return the subgraph traversed by a depth-first search
+def breadthFirstSearch(graph: Digraph, start: Hashable) -> Digraph:
+    visited = Digraph()
+    visited.addNode(start)
+    forProcessing = []
+    for neighbour in graph.outNeighbours(start):
+        forProcessing.append((start, neighbour))
+    while len(forProcessing) > 0:
+        edge = forProcessing.pop()
+        previous = edge[0]
+        current = edge[1]
+        if not visited.hasNode(current):
+            visited.addNode(current)
+            visited.addEdge(previous, current)
+            for neighbour in graph.outNeighbours(current):
+                forProcessing.append(current, neighbour)
+    return visited
+
 
 test2 = UndirectedGraph()
 test2.addNode('Tom')
@@ -96,4 +166,5 @@ print(test2.edges())
 print(test2.getNeighbours('Alex'))
 print(test2.degree('Tom'))
 
-print(nullGraph(5))
+print(traversal(pathGraph(4), 1)) #start from node 1
+print(traversal(cycleGraph(5+1), 0))

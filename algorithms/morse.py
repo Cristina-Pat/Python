@@ -26,6 +26,19 @@ def smallest(tree: Tree) -> object:
         tree = tree.left
     return tree.root
 
+
+def inOrder(expression: Tree) -> None:
+    if isEmpty(expression):
+        return
+    if isLeaf(expression):
+        print(expression.root, end=' ')
+        return
+    print('', end=' ')
+    inOrder(expression.left)
+    print(' ', expression.root, ' ', end=' ')
+    inOrder(expression.right)
+    print('', end= ' ')
+
 EMPTY = Tree()
 H = join('H',EMPTY,EMPTY)
 V = join('V',EMPTY,EMPTY)
@@ -57,3 +70,4 @@ MORSE = join('START',E,T)
 
 
 print(smallest(MORSE))
+inOrder(MORSE)

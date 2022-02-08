@@ -26,7 +26,7 @@ def smallest(tree: Tree) -> object:
         tree = tree.left
     return tree.root
 
-
+#print the Morse tree in order
 def inOrder(expression: Tree) -> None:
     if isEmpty(expression):
         return
@@ -38,6 +38,26 @@ def inOrder(expression: Tree) -> None:
     print(' ', expression.root, ' ', end=' ')
     inOrder(expression.right)
     print('', end= ' ')
+
+#print each level of the Morse tree (breadth-first search)
+def levels(tree: Tree) -> None:
+    thisLevel = deque()
+    nextLevel = deque()
+    thisLevel.append(tree)
+    print(thisLevel)
+
+    while len(thisLevel) > 0:
+        tree = thisLevel.popleft()
+        print(tree.root, ' ', end='')
+        if not isEmpty(tree.left):
+            nextLevel.append(tree.left)
+        if not isEmpty(tree.right):
+            nextLevel.append(tree.right)
+        #start a new line whether it was the last tree on this level
+        if len(thisLevel) == 0:
+            print()
+            thisLevel = nextLevel
+            nextLevel = deque()
 
 EMPTY = Tree()
 H = join('H',EMPTY,EMPTY)
@@ -71,3 +91,4 @@ MORSE = join('START',E,T)
 
 print(smallest(MORSE))
 inOrder(MORSE)
+levels(MORSE)
